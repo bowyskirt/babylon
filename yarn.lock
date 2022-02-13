@@ -1071,10 +1071,48 @@
   dependencies:
     tslib ">=1.10.0"
 
-"@babylonjs/loaders@^4.2.1":
+"@babylonjs/gui@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/gui/-/gui-4.2.1.tgz#e22e0ddfc456cc816500dd72ad034e1b41a53218"
+  integrity sha512-6gOolbWYFO5lrRWKunawYWQkX4a47dvuiIBrEmY6eKRN97e4f7YrR7oYolqeWFHLXzbn0JR0blOYQyUB5jQqmg==
+  dependencies:
+    "@babylonjs/core" "4.2.1"
+    tslib ">=1.10.0"
+
+"@babylonjs/inspector@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/inspector/-/inspector-4.2.1.tgz#fa6092f22656c23d79b489aef7b2e72e982a9326"
+  integrity sha512-P0l3oAVniyxYJIgpZsAJ3veJnA9Sq02HLsy7Dr3y5UOA8WP0n7X1Uv2T1MbONdTkXJ1YoX/KBfAYVAA81FXhbg==
+  dependencies:
+    "@babylonjs/core" "4.2.1"
+    "@babylonjs/gui" "4.2.1"
+    "@babylonjs/loaders" "4.2.1"
+    "@babylonjs/materials" "4.2.1"
+    "@babylonjs/serializers" "4.2.1"
+    babylonjs-gltf2interface "4.2.1"
+    tslib ">=1.10.0"
+
+"@babylonjs/loaders@4.2.1", "@babylonjs/loaders@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@babylonjs/loaders/-/loaders-4.2.1.tgz#34bcdf688f6bcb92bcf66de3d8fc297e9830026b"
   integrity sha512-huLdk18nTqwXHYIbxpXRTo1smcL1eCD8TvvyWiHciRjPttpRNjoACSR/G2J2FD0ymSBu8ZS8cdMvq1by7x2DsA==
+  dependencies:
+    "@babylonjs/core" "4.2.1"
+    babylonjs-gltf2interface "4.2.1"
+    tslib ">=1.10.0"
+
+"@babylonjs/materials@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/materials/-/materials-4.2.1.tgz#a44ef5c8a4c3d99e16dce27895e5ce4f7d178393"
+  integrity sha512-G4mfmixt2BnATaa2/uhf7xfZv4fqD6bGHocbEWT1Iu0KOJcpU7Q0EYjN8bqx78hVFjd94e4g0/7Bey2JaGrakA==
+  dependencies:
+    "@babylonjs/core" "4.2.1"
+    tslib ">=1.10.0"
+
+"@babylonjs/serializers@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/serializers/-/serializers-4.2.1.tgz#b7971f89ddbea5382edcd7ef62f6d04e962b63e4"
+  integrity sha512-G4Jw9ILUJp8hO49Jg+sxVAKfYMZlgxGClNrUKCOcsIGWg5Yy0hKd1BZd86wEiyJAYt+MDpuocWCShzkEV2mJhA==
   dependencies:
     "@babylonjs/core" "4.2.1"
     babylonjs-gltf2interface "4.2.1"

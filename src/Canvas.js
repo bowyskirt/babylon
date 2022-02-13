@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { Engine, Scene } from "@babylonjs/core";
+import { Engine, Scene, Vector3, HemisphericLight, MeshBuilder, FreeCamera, Color3 } from "@babylonjs/core";
+import "@babylonjs/loaders";
+import "@babylonjs/core/Debug/debugLayer";
+import "@babylonjs/inspector";
 
 function Canvas(props) {
   const refCanvas = useRef(null);
-  const { zcene, antialias, engineOptions, adaptToDeviceRatio, sceneOptions, ...rest } = props;
+  const { antialias, engineOptions, adaptToDeviceRatio, sceneOptions, ...rest } = props;
 
   useEffect(() => {
     if (refCanvas.current) {
@@ -11,18 +14,35 @@ function Canvas(props) {
       canvas.style.width = "100%";
       canvas.style.height = "100%";
 
-      let z;
-      const engine = new Engine(refKanvas.current, antialias, engineOptions, adaptToDeviceRatio);
+      const engine = new Engine(canvas, antialias, engineOptions, adaptToDeviceRatio);
       const scene = new Scene(engine, sceneOptions);
+      scene.debugLayer.show();
 
-      let shellB = ShellB();
-      shellB.init(canvas, config);
+      scene.clearColor = new Color3.Black();
+
+      const stage = new TestStage();
+
+      // if (scene.isReady()) {
+      //   console.log('scene.isReady() === true');
+      //   stage.onSceneReady(scene);
+      // } else {
+      //   scene.onReadyObservable.addOnce(scene => stage.onSceneReady(scene));
+      // }
+
+      scene.onReadyObservable.addOnce(scene => {
+        stage.onSceneReady(scene);
+      });
+
+      engine.runRenderLoop(() => {
+        stage.onRender();
+        scene.render();
+      });
 
       const resize = () => {
         console.log(`---- resize ${new Date()}`);
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        shellB.getEngine().resize();
+        scene.getEngine().resize();
       }
 
       resize();
@@ -32,7 +52,7 @@ function Canvas(props) {
       }
 
       return () => {
-        shellB.getEngine().dispose();
+        scene.getEngine().dispose();
 
         if (window) {
           window.removeEventListener("resize", resize);
@@ -46,3 +66,39 @@ function Canvas(props) {
 };
 
 export default Canvas;
+
+class TestStage {
+  #scene;
+  #box;
+
+  onSceneReady(scene) {
+    this.#scene = scene;
+    const canvas = scene.getEngine().getRenderingCanvas();
+
+    const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+    camera.setTarget(Vector3.Zero());
+    camera.attachControl(canvas, true);
+    //camera.attachControl(true);
+
+    let light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
+    
+    this.#box = MeshBuilder.CreateBox("box", { size: 1 }, scene);
+    this.#box.position.y = 1;
+    // const ground = MeshBuilder.CreateGround("ground", { width: 25, height: 50 }, scene);
+    MeshBuilder.CreateGround("ground", { width: 25, height: 50 }, scene);
+    //ground.position.y = 0;
+
+    console.log('onSceneReady(scene)', scene);
+  };
+
+  onRender() {
+    if (this.#box !== undefined) {
+      let deltaTimeInMillis = this.#scene.getEngine().getDeltaTime();
+      // console.log(deltaTimeInMillis);
+      const rpm = 10;
+      this.#box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000);
+    }
+  };
+
+}
