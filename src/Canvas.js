@@ -11,12 +11,19 @@ function Canvas(props) {
   useEffect(() => {
     if (refCanvas.current) {
       let canvas = refCanvas.current;
+
+    //also read this for scrollbar issue
+    //https://stackoverflow.com/questions/26745292/canvas-toggle-filling-whole-page-removing-scrollbar
+      document.body.style.overflow = 'hidden';
       canvas.style.width = "100%";
       canvas.style.height = "100%";
+      // canvas.width = window.innerWidth;
+      // canvas.height = window.innerHeight;
+
 
       const engine = new Engine(canvas, antialias, engineOptions, adaptToDeviceRatio);
       const scene = new Scene(engine, sceneOptions);
-      scene.debugLayer.show();
+      //scene.debugLayer.show();
 
       scene.clearColor = new Color3.Black();
 
@@ -40,6 +47,7 @@ function Canvas(props) {
 
       const resize = () => {
         console.log(`---- resize ${new Date()}`);
+        //console.log(`---- window.innerWidth ${window.innerWidth}`);
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         scene.getEngine().resize();
@@ -89,7 +97,7 @@ class TestStage {
     MeshBuilder.CreateGround("ground", { width: 25, height: 50 }, scene);
     //ground.position.y = 0;
 
-    console.log('onSceneReady(scene)', scene);
+    //console.log('onSceneReady(scene)', scene);
   };
 
   onRender() {
